@@ -24,6 +24,10 @@ export class AiService {
           ...(conversationId && { conversation_id: conversationId }),
         }),
       });
+      if (!response.ok) {
+        console.error(await response.text());
+        throw new InternalServerErrorException('Failed to call agent');
+      }
       return (await response.json()) as DifyResponse;
     } catch (error) {
       console.error(error);

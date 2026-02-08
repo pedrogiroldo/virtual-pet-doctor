@@ -53,4 +53,22 @@ export class AgentChatSessionService {
       );
     }
   }
+
+  async createUserChatSessionWithTimestamp(userId: string, sessionId: string) {
+    try {
+      const chatSession = await this.prismaService.agentChatSession.create({
+        data: {
+          userId,
+          sessionId,
+          lastMessageTimestamp: new Date(),
+        },
+      });
+      return chatSession;
+    } catch (error) {
+      console.error(error);
+      throw new InternalServerErrorException(
+        'Failed to create chat session with timestamp',
+      );
+    }
+  }
 }

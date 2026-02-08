@@ -8,6 +8,7 @@ export class WhatsappController {
 
   @Post('notification')
   getNotification(@Body() body: WahaWebhookBody): Promise<void> {
+    console.log('[CONTROLLER] Webhook received at /whatsapp/notification');
     return this.whatsappService.handleWebhook(body);
   }
 }
