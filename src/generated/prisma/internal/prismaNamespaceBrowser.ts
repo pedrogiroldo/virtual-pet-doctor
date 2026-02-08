@@ -86,7 +86,7 @@ export const AgentChatSessionScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   sessionId: 'sessionId',
-  lastMessage: 'lastMessage',
+  lastMessageTimestamp: 'lastMessageTimestamp',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

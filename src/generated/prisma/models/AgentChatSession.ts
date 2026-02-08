@@ -28,7 +28,7 @@ export type AgentChatSessionMinAggregateOutputType = {
   id: string | null
   userId: string | null
   sessionId: string | null
-  lastMessage: Date | null
+  lastMessageTimestamp: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -37,7 +37,7 @@ export type AgentChatSessionMaxAggregateOutputType = {
   id: string | null
   userId: string | null
   sessionId: string | null
-  lastMessage: Date | null
+  lastMessageTimestamp: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -46,7 +46,7 @@ export type AgentChatSessionCountAggregateOutputType = {
   id: number
   userId: number
   sessionId: number
-  lastMessage: number
+  lastMessageTimestamp: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -57,7 +57,7 @@ export type AgentChatSessionMinAggregateInputType = {
   id?: true
   userId?: true
   sessionId?: true
-  lastMessage?: true
+  lastMessageTimestamp?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -66,7 +66,7 @@ export type AgentChatSessionMaxAggregateInputType = {
   id?: true
   userId?: true
   sessionId?: true
-  lastMessage?: true
+  lastMessageTimestamp?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -75,7 +75,7 @@ export type AgentChatSessionCountAggregateInputType = {
   id?: true
   userId?: true
   sessionId?: true
-  lastMessage?: true
+  lastMessageTimestamp?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -157,7 +157,7 @@ export type AgentChatSessionGroupByOutputType = {
   id: string
   userId: string
   sessionId: string
-  lastMessage: Date
+  lastMessageTimestamp: Date
   createdAt: Date
   updatedAt: Date
   _count: AgentChatSessionCountAggregateOutputType | null
@@ -187,7 +187,7 @@ export type AgentChatSessionWhereInput = {
   id?: Prisma.StringFilter<"AgentChatSession"> | string
   userId?: Prisma.StringFilter<"AgentChatSession"> | string
   sessionId?: Prisma.StringFilter<"AgentChatSession"> | string
-  lastMessage?: Prisma.DateTimeFilter<"AgentChatSession"> | Date | string
+  lastMessageTimestamp?: Prisma.DateTimeFilter<"AgentChatSession"> | Date | string
   createdAt?: Prisma.DateTimeFilter<"AgentChatSession"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"AgentChatSession"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -197,7 +197,7 @@ export type AgentChatSessionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   sessionId?: Prisma.SortOrder
-  lastMessage?: Prisma.SortOrder
+  lastMessageTimestamp?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
@@ -210,7 +210,7 @@ export type AgentChatSessionWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.AgentChatSessionWhereInput[]
   NOT?: Prisma.AgentChatSessionWhereInput | Prisma.AgentChatSessionWhereInput[]
   userId?: Prisma.StringFilter<"AgentChatSession"> | string
-  lastMessage?: Prisma.DateTimeFilter<"AgentChatSession"> | Date | string
+  lastMessageTimestamp?: Prisma.DateTimeFilter<"AgentChatSession"> | Date | string
   createdAt?: Prisma.DateTimeFilter<"AgentChatSession"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"AgentChatSession"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -220,7 +220,7 @@ export type AgentChatSessionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   sessionId?: Prisma.SortOrder
-  lastMessage?: Prisma.SortOrder
+  lastMessageTimestamp?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.AgentChatSessionCountOrderByAggregateInput
@@ -235,7 +235,7 @@ export type AgentChatSessionScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"AgentChatSession"> | string
   userId?: Prisma.StringWithAggregatesFilter<"AgentChatSession"> | string
   sessionId?: Prisma.StringWithAggregatesFilter<"AgentChatSession"> | string
-  lastMessage?: Prisma.DateTimeWithAggregatesFilter<"AgentChatSession"> | Date | string
+  lastMessageTimestamp?: Prisma.DateTimeWithAggregatesFilter<"AgentChatSession"> | Date | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"AgentChatSession"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"AgentChatSession"> | Date | string
 }
@@ -243,7 +243,7 @@ export type AgentChatSessionScalarWhereWithAggregatesInput = {
 export type AgentChatSessionCreateInput = {
   id?: string
   sessionId: string
-  lastMessage?: Date | string
+  lastMessageTimestamp?: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutChatSessionsInput
@@ -253,7 +253,7 @@ export type AgentChatSessionUncheckedCreateInput = {
   id?: string
   userId: string
   sessionId: string
-  lastMessage?: Date | string
+  lastMessageTimestamp?: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -261,7 +261,7 @@ export type AgentChatSessionUncheckedCreateInput = {
 export type AgentChatSessionUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   sessionId?: Prisma.StringFieldUpdateOperationsInput | string
-  lastMessage?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastMessageTimestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutChatSessionsNestedInput
@@ -271,7 +271,7 @@ export type AgentChatSessionUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   sessionId?: Prisma.StringFieldUpdateOperationsInput | string
-  lastMessage?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastMessageTimestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -280,7 +280,7 @@ export type AgentChatSessionCreateManyInput = {
   id?: string
   userId: string
   sessionId: string
-  lastMessage?: Date | string
+  lastMessageTimestamp?: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -288,7 +288,7 @@ export type AgentChatSessionCreateManyInput = {
 export type AgentChatSessionUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   sessionId?: Prisma.StringFieldUpdateOperationsInput | string
-  lastMessage?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastMessageTimestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -297,7 +297,7 @@ export type AgentChatSessionUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   sessionId?: Prisma.StringFieldUpdateOperationsInput | string
-  lastMessage?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastMessageTimestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -316,7 +316,7 @@ export type AgentChatSessionCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   sessionId?: Prisma.SortOrder
-  lastMessage?: Prisma.SortOrder
+  lastMessageTimestamp?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -325,7 +325,7 @@ export type AgentChatSessionMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   sessionId?: Prisma.SortOrder
-  lastMessage?: Prisma.SortOrder
+  lastMessageTimestamp?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -334,7 +334,7 @@ export type AgentChatSessionMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   sessionId?: Prisma.SortOrder
-  lastMessage?: Prisma.SortOrder
+  lastMessageTimestamp?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -384,7 +384,7 @@ export type AgentChatSessionUncheckedUpdateManyWithoutUserNestedInput = {
 export type AgentChatSessionCreateWithoutUserInput = {
   id?: string
   sessionId: string
-  lastMessage?: Date | string
+  lastMessageTimestamp?: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -392,7 +392,7 @@ export type AgentChatSessionCreateWithoutUserInput = {
 export type AgentChatSessionUncheckedCreateWithoutUserInput = {
   id?: string
   sessionId: string
-  lastMessage?: Date | string
+  lastMessageTimestamp?: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -430,7 +430,7 @@ export type AgentChatSessionScalarWhereInput = {
   id?: Prisma.StringFilter<"AgentChatSession"> | string
   userId?: Prisma.StringFilter<"AgentChatSession"> | string
   sessionId?: Prisma.StringFilter<"AgentChatSession"> | string
-  lastMessage?: Prisma.DateTimeFilter<"AgentChatSession"> | Date | string
+  lastMessageTimestamp?: Prisma.DateTimeFilter<"AgentChatSession"> | Date | string
   createdAt?: Prisma.DateTimeFilter<"AgentChatSession"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"AgentChatSession"> | Date | string
 }
@@ -438,7 +438,7 @@ export type AgentChatSessionScalarWhereInput = {
 export type AgentChatSessionCreateManyUserInput = {
   id?: string
   sessionId: string
-  lastMessage?: Date | string
+  lastMessageTimestamp?: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -446,7 +446,7 @@ export type AgentChatSessionCreateManyUserInput = {
 export type AgentChatSessionUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   sessionId?: Prisma.StringFieldUpdateOperationsInput | string
-  lastMessage?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastMessageTimestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -454,7 +454,7 @@ export type AgentChatSessionUpdateWithoutUserInput = {
 export type AgentChatSessionUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   sessionId?: Prisma.StringFieldUpdateOperationsInput | string
-  lastMessage?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastMessageTimestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -462,7 +462,7 @@ export type AgentChatSessionUncheckedUpdateWithoutUserInput = {
 export type AgentChatSessionUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   sessionId?: Prisma.StringFieldUpdateOperationsInput | string
-  lastMessage?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastMessageTimestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -473,7 +473,7 @@ export type AgentChatSessionSelect<ExtArgs extends runtime.Types.Extensions.Inte
   id?: boolean
   userId?: boolean
   sessionId?: boolean
-  lastMessage?: boolean
+  lastMessageTimestamp?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -483,7 +483,7 @@ export type AgentChatSessionSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   id?: boolean
   userId?: boolean
   sessionId?: boolean
-  lastMessage?: boolean
+  lastMessageTimestamp?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -493,7 +493,7 @@ export type AgentChatSessionSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   id?: boolean
   userId?: boolean
   sessionId?: boolean
-  lastMessage?: boolean
+  lastMessageTimestamp?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -503,12 +503,12 @@ export type AgentChatSessionSelectScalar = {
   id?: boolean
   userId?: boolean
   sessionId?: boolean
-  lastMessage?: boolean
+  lastMessageTimestamp?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type AgentChatSessionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "sessionId" | "lastMessage" | "createdAt" | "updatedAt", ExtArgs["result"]["agentChatSession"]>
+export type AgentChatSessionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "sessionId" | "lastMessageTimestamp" | "createdAt" | "updatedAt", ExtArgs["result"]["agentChatSession"]>
 export type AgentChatSessionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -528,7 +528,7 @@ export type $AgentChatSessionPayload<ExtArgs extends runtime.Types.Extensions.In
     id: string
     userId: string
     sessionId: string
-    lastMessage: Date
+    lastMessageTimestamp: Date
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["agentChatSession"]>
@@ -958,7 +958,7 @@ export interface AgentChatSessionFieldRefs {
   readonly id: Prisma.FieldRef<"AgentChatSession", 'String'>
   readonly userId: Prisma.FieldRef<"AgentChatSession", 'String'>
   readonly sessionId: Prisma.FieldRef<"AgentChatSession", 'String'>
-  readonly lastMessage: Prisma.FieldRef<"AgentChatSession", 'DateTime'>
+  readonly lastMessageTimestamp: Prisma.FieldRef<"AgentChatSession", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"AgentChatSession", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"AgentChatSession", 'DateTime'>
 }

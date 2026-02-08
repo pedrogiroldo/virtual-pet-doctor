@@ -13,18 +13,6 @@ export class UserService {
     this.wahaApiUrl = this.configService.get<string>('WAHA_API_URL')!;
     this.wahaApiKey = this.configService.get<string>('WAHA_API_KEY')!;
   }
-  // async createUser(createUserDto: CreateUserDto) {
-  //   try {
-  //     const user = await this.prismaService.user.create({
-  //       data: createUserDto,
-  //     });
-  //     return user;
-  //   } catch (error) {
-  //     console.error(error);
-  //     throw new InternalServerErrorException('Failed to create user');
-  //   }
-  // }
-
   async findOrCreateUser(chatId: string) {
     try {
       const existingUser = await this.prismaService.user.findUnique({
@@ -34,33 +22,32 @@ export class UserService {
       if (existingUser) {
         return existingUser;
       }
-
       const userPushNameData = await fetch(
         `${this.wahaApiUrl}/api/contacts?contactId=${chatId}&session=default`,
         {
           headers: {
-            Authorization: `Bearer ${this.wahaApiKey}`,
+            'X-Api-Key': this.wahaApiKey,
+            Accept: 'application/json',
           },
           method: 'GET',
         },
       );
       const userPushName = (await userPushNameData.json()) as {
-        status: number;
-        data: {
-          name: string;
-        };
+        pushname: string;
       };
 
-      if (userPushName.status !== 200) {
+      console.log(userPushName);
+      if (userPushNameData.status !== 200) {
         throw new InternalServerErrorException('Failed to get user push name');
       }
 
-      const userName = userPushName.data.name;
+      const pushName = userPushName.pushname;
+      console.log(pushName);
 
       const newUser = await this.prismaService.user.create({
         data: {
           chatId: chatId,
-          name: userName,
+          name: pushName,
         },
       });
 

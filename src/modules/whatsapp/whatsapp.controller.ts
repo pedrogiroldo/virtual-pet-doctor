@@ -8,6 +8,6 @@ export class WhatsappController {
 
   @Post('notification')
   getNotification(@Body() body: WahaWebhookBody): Promise<void> {
-    // return this.whatsappService.handleWebhook(body);
+    return this.whatsappService.handleWebhook(body);
   }
 }

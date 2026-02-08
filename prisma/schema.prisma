@@ -24,13 +24,13 @@ model User {
 }
 
 model AgentChatSession {
-  id          String   @id @default(uuid())
-  user        User     @relation(fields: [userId], references: [id])
-  userId      String
-  sessionId   String   @unique
-  lastMessage DateTime @default(now())
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id                   String   @id @default(uuid())
+  user                 User     @relation(fields: [userId], references: [id])
+  userId               String
+  sessionId            String   @unique
+  lastMessageTimestamp DateTime @default(now())
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
 
   @@index([userId, sessionId])
 }
