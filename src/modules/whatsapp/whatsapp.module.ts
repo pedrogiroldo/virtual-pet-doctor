@@ -3,10 +3,11 @@ import { WhatsappService } from './whatsapp.service';
 import { WhatsappController } from './whatsapp.controller';
 import { UserModule } from '../user/user.module';
 import { AgentChatSessionModule } from '../agent-chat-session/agent-chat-session.module';
+import { AiModule } from '../ai/ai.module';
 
 @Module({
   controllers: [WhatsappController],
   providers: [WhatsappService],
-  imports: [UserModule, AgentChatSessionModule],
+  imports: [UserModule, AgentChatSessionModule, AiModule],
 })
 export class WhatsappModule {}

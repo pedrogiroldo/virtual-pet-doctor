@@ -38,4 +38,19 @@ export class AgentChatSessionService {
       throw new InternalServerErrorException('Failed to create chat session');
     }
   }
+
+  async updateChatSessionTimestamp(sessionId: string) {
+    try {
+      const chatSession = await this.prismaService.agentChatSession.update({
+        where: { sessionId },
+        data: { lastMessageTimestamp: new Date() },
+      });
+      return chatSession;
+    } catch (error) {
+      console.error(error);
+      throw new InternalServerErrorException(
+        'Failed to update chat session timestamp',
+      );
+    }
+  }
 }
