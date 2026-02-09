@@ -183,6 +183,7 @@ export type UserWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   chatSessions?: Prisma.AgentChatSessionListRelationFilter
+  medicationReminders?: Prisma.MedicationReminderListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -192,6 +193,7 @@ export type UserOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   chatSessions?: Prisma.AgentChatSessionOrderByRelationAggregateInput
+  medicationReminders?: Prisma.MedicationReminderOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -204,6 +206,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   chatSessions?: Prisma.AgentChatSessionListRelationFilter
+  medicationReminders?: Prisma.MedicationReminderListRelationFilter
 }, "id" | "chatId">
 
 export type UserOrderByWithAggregationInput = {
@@ -235,6 +238,7 @@ export type UserCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   chatSessions?: Prisma.AgentChatSessionCreateNestedManyWithoutUserInput
+  medicationReminders?: Prisma.MedicationReminderCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -244,6 +248,7 @@ export type UserUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   chatSessions?: Prisma.AgentChatSessionUncheckedCreateNestedManyWithoutUserInput
+  medicationReminders?: Prisma.MedicationReminderUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -253,6 +258,7 @@ export type UserUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   chatSessions?: Prisma.AgentChatSessionUpdateManyWithoutUserNestedInput
+  medicationReminders?: Prisma.MedicationReminderUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -262,6 +268,7 @@ export type UserUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   chatSessions?: Prisma.AgentChatSessionUncheckedUpdateManyWithoutUserNestedInput
+  medicationReminders?: Prisma.MedicationReminderUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -339,12 +346,27 @@ export type UserUpdateOneRequiredWithoutChatSessionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutChatSessionsInput, Prisma.UserUpdateWithoutChatSessionsInput>, Prisma.UserUncheckedUpdateWithoutChatSessionsInput>
 }
 
+export type UserCreateNestedOneWithoutMedicationRemindersInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutMedicationRemindersInput, Prisma.UserUncheckedCreateWithoutMedicationRemindersInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutMedicationRemindersInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutMedicationRemindersNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutMedicationRemindersInput, Prisma.UserUncheckedCreateWithoutMedicationRemindersInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutMedicationRemindersInput
+  upsert?: Prisma.UserUpsertWithoutMedicationRemindersInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutMedicationRemindersInput, Prisma.UserUpdateWithoutMedicationRemindersInput>, Prisma.UserUncheckedUpdateWithoutMedicationRemindersInput>
+}
+
 export type UserCreateWithoutChatSessionsInput = {
   id?: string
   name: string
   chatId: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  medicationReminders?: Prisma.MedicationReminderCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutChatSessionsInput = {
@@ -353,6 +375,7 @@ export type UserUncheckedCreateWithoutChatSessionsInput = {
   chatId: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  medicationReminders?: Prisma.MedicationReminderUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutChatSessionsInput = {
@@ -377,6 +400,7 @@ export type UserUpdateWithoutChatSessionsInput = {
   chatId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  medicationReminders?: Prisma.MedicationReminderUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutChatSessionsInput = {
@@ -385,6 +409,59 @@ export type UserUncheckedUpdateWithoutChatSessionsInput = {
   chatId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  medicationReminders?: Prisma.MedicationReminderUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutMedicationRemindersInput = {
+  id?: string
+  name: string
+  chatId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  chatSessions?: Prisma.AgentChatSessionCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutMedicationRemindersInput = {
+  id?: string
+  name: string
+  chatId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  chatSessions?: Prisma.AgentChatSessionUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutMedicationRemindersInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutMedicationRemindersInput, Prisma.UserUncheckedCreateWithoutMedicationRemindersInput>
+}
+
+export type UserUpsertWithoutMedicationRemindersInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutMedicationRemindersInput, Prisma.UserUncheckedUpdateWithoutMedicationRemindersInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutMedicationRemindersInput, Prisma.UserUncheckedCreateWithoutMedicationRemindersInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutMedicationRemindersInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutMedicationRemindersInput, Prisma.UserUncheckedUpdateWithoutMedicationRemindersInput>
+}
+
+export type UserUpdateWithoutMedicationRemindersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  chatId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  chatSessions?: Prisma.AgentChatSessionUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutMedicationRemindersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  chatId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  chatSessions?: Prisma.AgentChatSessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -394,10 +471,12 @@ export type UserUncheckedUpdateWithoutChatSessionsInput = {
 
 export type UserCountOutputType = {
   chatSessions: number
+  medicationReminders: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   chatSessions?: boolean | UserCountOutputTypeCountChatSessionsArgs
+  medicationReminders?: boolean | UserCountOutputTypeCountMedicationRemindersArgs
 }
 
 /**
@@ -417,6 +496,13 @@ export type UserCountOutputTypeCountChatSessionsArgs<ExtArgs extends runtime.Typ
   where?: Prisma.AgentChatSessionWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountMedicationRemindersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MedicationReminderWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -425,6 +511,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   createdAt?: boolean
   updatedAt?: boolean
   chatSessions?: boolean | Prisma.User$chatSessionsArgs<ExtArgs>
+  medicationReminders?: boolean | Prisma.User$medicationRemindersArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -455,6 +542,7 @@ export type UserSelectScalar = {
 export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "chatId" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   chatSessions?: boolean | Prisma.User$chatSessionsArgs<ExtArgs>
+  medicationReminders?: boolean | Prisma.User$medicationRemindersArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -464,6 +552,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   name: "User"
   objects: {
     chatSessions: Prisma.$AgentChatSessionPayload<ExtArgs>[]
+    medicationReminders: Prisma.$MedicationReminderPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -866,6 +955,7 @@ readonly fields: UserFieldRefs;
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   chatSessions<T extends Prisma.User$chatSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$chatSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AgentChatSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  medicationReminders<T extends Prisma.User$medicationRemindersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$medicationRemindersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MedicationReminderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1309,6 +1399,30 @@ export type User$chatSessionsArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.AgentChatSessionScalarFieldEnum | Prisma.AgentChatSessionScalarFieldEnum[]
+}
+
+/**
+ * User.medicationReminders
+ */
+export type User$medicationRemindersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MedicationReminder
+   */
+  select?: Prisma.MedicationReminderSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MedicationReminder
+   */
+  omit?: Prisma.MedicationReminderOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MedicationReminderInclude<ExtArgs> | null
+  where?: Prisma.MedicationReminderWhereInput
+  orderBy?: Prisma.MedicationReminderOrderByWithRelationInput | Prisma.MedicationReminderOrderByWithRelationInput[]
+  cursor?: Prisma.MedicationReminderWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MedicationReminderScalarFieldEnum | Prisma.MedicationReminderScalarFieldEnum[]
 }
 
 /**

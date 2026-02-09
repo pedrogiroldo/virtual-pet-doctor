@@ -62,6 +62,9 @@ export class WhatsappService {
         message,
         user.id,
         existingSession.sessionId,
+        {
+          userId: user.id,
+        },
       );
 
       // Update session timestamp to keep it active
@@ -73,7 +76,9 @@ export class WhatsappService {
       console.log(
         '[WEBHOOK] No active session, calling AI without conversation_id',
       );
-      aiResponse = await this.aiService.callAgent(message, user.id);
+      aiResponse = await this.aiService.callAgent(message, user.id, undefined, {
+        userId: user.id,
+      });
 
       // Create local session with Dify's conversation_id if provided
       if (aiResponse.conversation_id) {

@@ -8,8 +8,14 @@ export class AiService {
   constructor(private configService: ConfigService) {
     this.difyApiKey = this.configService.get<string>('DIFY_API_KEY')!;
   }
-  async callAgent(message: string, userId: string, conversationId?: string) {
+  async callAgent(
+    message: string,
+    userId: string,
+    conversationId?: string,
+    inputs?: Record<string, unknown>,
+  ) {
     try {
+      console.log('inputs', inputs);
       const response = await fetch('https://api.dify.ai/v1/chat-messages', {
         headers: {
           Authorization: `Bearer ${this.difyApiKey}`,
@@ -17,7 +23,7 @@ export class AiService {
         },
         method: 'POST',
         body: JSON.stringify({
-          inputs: {},
+          inputs: inputs || {},
           response_mode: 'blocking',
           query: message,
           user: userId,

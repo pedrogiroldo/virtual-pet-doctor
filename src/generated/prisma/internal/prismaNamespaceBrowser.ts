@@ -52,7 +52,8 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
-  AgentChatSession: 'AgentChatSession'
+  AgentChatSession: 'AgentChatSession',
+  MedicationReminder: 'MedicationReminder'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -92,6 +93,20 @@ export const AgentChatSessionScalarFieldEnum = {
 } as const
 
 export type AgentChatSessionScalarFieldEnum = (typeof AgentChatSessionScalarFieldEnum)[keyof typeof AgentChatSessionScalarFieldEnum]
+
+
+export const MedicationReminderScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  message: 'message',
+  active: 'active',
+  recurrence: 'recurrence',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MedicationReminderScalarFieldEnum = (typeof MedicationReminderScalarFieldEnum)[keyof typeof MedicationReminderScalarFieldEnum]
 
 
 export const SortOrder = {

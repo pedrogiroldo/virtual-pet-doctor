@@ -47,3 +47,8 @@ export type User = Prisma.UserModel
  * 
  */
 export type AgentChatSession = Prisma.AgentChatSessionModel
+/**
+ * Model MedicationReminder
+ * 
+ */
+export type MedicationReminder = Prisma.MedicationReminderModel

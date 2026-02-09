@@ -8,6 +8,7 @@ import { UserModule } from './modules/user/user.module';
 import { PrismaService } from './modules/prisma/prisma.service';
 import { PrismaModule } from './modules/prisma/prisma.module';
 import { AgentChatSessionModule } from './modules/agent-chat-session/agent-chat-session.module';
+import { MedicationReminderModule } from './medication-reminder/medication-reminder.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { AgentChatSessionModule } from './modules/agent-chat-session/agent-chat-
     UserModule,
     PrismaModule,
     AgentChatSessionModule,
+    MedicationReminderModule,
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],

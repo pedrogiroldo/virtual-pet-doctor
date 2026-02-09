@@ -9,5 +9,6 @@ import { AiModule } from '../ai/ai.module';
   controllers: [WhatsappController],
   providers: [WhatsappService],
   imports: [UserModule, AgentChatSessionModule, AiModule],
+  exports: [WhatsappService],
 })
 export class WhatsappModule {}

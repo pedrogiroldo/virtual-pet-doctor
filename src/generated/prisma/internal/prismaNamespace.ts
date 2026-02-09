@@ -385,7 +385,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   User: 'User',
-  AgentChatSession: 'AgentChatSession'
+  AgentChatSession: 'AgentChatSession',
+  MedicationReminder: 'MedicationReminder'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -401,7 +402,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "agentChatSession"
+    modelProps: "user" | "agentChatSession" | "medicationReminder"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -553,6 +554,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    MedicationReminder: {
+      payload: Prisma.$MedicationReminderPayload<ExtArgs>
+      fields: Prisma.MedicationReminderFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MedicationReminderFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MedicationReminderPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MedicationReminderFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MedicationReminderPayload>
+        }
+        findFirst: {
+          args: Prisma.MedicationReminderFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MedicationReminderPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MedicationReminderFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MedicationReminderPayload>
+        }
+        findMany: {
+          args: Prisma.MedicationReminderFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MedicationReminderPayload>[]
+        }
+        create: {
+          args: Prisma.MedicationReminderCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MedicationReminderPayload>
+        }
+        createMany: {
+          args: Prisma.MedicationReminderCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.MedicationReminderCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MedicationReminderPayload>[]
+        }
+        delete: {
+          args: Prisma.MedicationReminderDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MedicationReminderPayload>
+        }
+        update: {
+          args: Prisma.MedicationReminderUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MedicationReminderPayload>
+        }
+        deleteMany: {
+          args: Prisma.MedicationReminderDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MedicationReminderUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.MedicationReminderUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MedicationReminderPayload>[]
+        }
+        upsert: {
+          args: Prisma.MedicationReminderUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MedicationReminderPayload>
+        }
+        aggregate: {
+          args: Prisma.MedicationReminderAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMedicationReminder>
+        }
+        groupBy: {
+          args: Prisma.MedicationReminderGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MedicationReminderGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MedicationReminderCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MedicationReminderCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -615,6 +690,20 @@ export const AgentChatSessionScalarFieldEnum = {
 export type AgentChatSessionScalarFieldEnum = (typeof AgentChatSessionScalarFieldEnum)[keyof typeof AgentChatSessionScalarFieldEnum]
 
 
+export const MedicationReminderScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  message: 'message',
+  active: 'active',
+  recurrence: 'recurrence',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MedicationReminderScalarFieldEnum = (typeof MedicationReminderScalarFieldEnum)[keyof typeof MedicationReminderScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -662,6 +751,13 @@ export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'DateTime[]'
  */
 export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -775,6 +871,7 @@ export type PrismaClientOptions = ({
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
   agentChatSession?: Prisma.AgentChatSessionOmit
+  medicationReminder?: Prisma.MedicationReminderOmit
 }
 
 /* Types for Logging */

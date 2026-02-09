@@ -20,7 +20,7 @@ const config: runtime.GetPrismaClientConfig = {
   "clientVersion": "7.3.0",
   "engineVersion": "9d6ad21cbbceab97458517b147a6a09ff43aa735",
   "activeProvider": "postgresql",
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider     = \"prisma-client\"\n  output       = \"../src/generated/prisma\"\n  moduleFormat = \"cjs\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel User {\n  id           String             @id @default(uuid())\n  name         String\n  chatId       String             @unique\n  createdAt    DateTime           @default(now())\n  updatedAt    DateTime           @updatedAt\n  chatSessions AgentChatSession[]\n}\n\nmodel AgentChatSession {\n  id                   String   @id @default(uuid())\n  user                 User     @relation(fields: [userId], references: [id])\n  userId               String\n  sessionId            String   @unique\n  lastMessageTimestamp DateTime @default(now())\n  createdAt            DateTime @default(now())\n  updatedAt            DateTime @updatedAt\n\n  @@index([userId, sessionId])\n}\n",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider     = \"prisma-client\"\n  output       = \"../src/generated/prisma\"\n  moduleFormat = \"cjs\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel User {\n  id                  String               @id @default(uuid())\n  name                String\n  chatId              String               @unique\n  createdAt           DateTime             @default(now())\n  updatedAt           DateTime             @updatedAt\n  chatSessions        AgentChatSession[]\n  medicationReminders MedicationReminder[]\n}\n\nmodel AgentChatSession {\n  id                   String   @id @default(uuid())\n  user                 User     @relation(fields: [userId], references: [id])\n  userId               String\n  sessionId            String   @unique\n  lastMessageTimestamp DateTime @default(now())\n  createdAt            DateTime @default(now())\n  updatedAt            DateTime @updatedAt\n\n  @@index([userId, sessionId])\n}\n\nmodel MedicationReminder {\n  id         String   @id @default(uuid())\n  title      String\n  message    String\n  active     Boolean  @default(true)\n  recurrence String\n  user       User     @relation(fields: [userId], references: [id])\n  userId     String\n  createdAt  DateTime @default(now())\n  updatedAt  DateTime @updatedAt\n\n  @@index([userId])\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -28,7 +28,7 @@ const config: runtime.GetPrismaClientConfig = {
   }
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"chatId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"chatSessions\",\"kind\":\"object\",\"type\":\"AgentChatSession\",\"relationName\":\"AgentChatSessionToUser\"}],\"dbName\":null},\"AgentChatSession\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"AgentChatSessionToUser\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"sessionId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"lastMessageTimestamp\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"chatId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"chatSessions\",\"kind\":\"object\",\"type\":\"AgentChatSession\",\"relationName\":\"AgentChatSessionToUser\"},{\"name\":\"medicationReminders\",\"kind\":\"object\",\"type\":\"MedicationReminder\",\"relationName\":\"MedicationReminderToUser\"}],\"dbName\":null},\"AgentChatSession\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"AgentChatSessionToUser\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"sessionId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"lastMessageTimestamp\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"MedicationReminder\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"message\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"active\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"recurrence\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"MedicationReminderToUser\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 
 async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Module> {
   const { Buffer } = await import('node:buffer')
@@ -195,6 +195,16 @@ export interface PrismaClient<
     * ```
     */
   get agentChatSession(): Prisma.AgentChatSessionDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.medicationReminder`: Exposes CRUD operations for the **MedicationReminder** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more MedicationReminders
+    * const medicationReminders = await prisma.medicationReminder.findMany()
+    * ```
+    */
+  get medicationReminder(): Prisma.MedicationReminderDelegate<ExtArgs, { omit: OmitOpts }>;
 }
 
 export function getPrismaClientClass(): PrismaClientConstructor {
