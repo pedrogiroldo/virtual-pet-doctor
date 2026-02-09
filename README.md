@@ -1,98 +1,119 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Virtual Pet Doctor
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Sobre o Projeto
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+O **Virtual Pet Doctor** e um assistente de saude virtual baseado em IA que ajuda pessoas com doencas cronicas a gerenciar sua saude atraves do WhatsApp. O sistema utiliza a plataforma Dify AI para fornecer conversas inteligentes com RAG (Retrieval-Augmented Generation) especializadas em doencas cronicas.
 
-## Description
+## Funcionalidades
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+### Assistente de Saude via WhatsApp
+- Conversas inteligentes com IA especializada em doencas cronicas
+- Suporte a perguntas sobre medicamentos, sintomas e gerenciamento de saude
+- Manutencao do contexto da conversa ao longo das mensagens
+- Criacao automatica de usuarios ao primeiro contato
 
-## Project setup
+### Lembretes de Medicamentos
+- Criacao de lembretes recorrentes com expressoes cron
+- Mensagens personalizadas para cada lembrete
+- Ativacao/desativacao de lembretes
+- Envio automatico de lembretes via WhatsApp
 
-```bash
-$ pnpm install
+### Gestao de Usuarios
+- Criacao automatica de usuarios a partir do WhatsApp
+- Sessoes de chat individuais por usuario
+- Timeout de sessao (5 minutos de inatividade)
+- Historico de conversas
+
+## Arquitetura
+
+O projeto foi construido com as seguintes tecnologias:
+
+- **Framework:** NestJS com TypeScript
+- **Banco de Dados:** PostgreSQL com Prisma ORM
+- **Integracao IA:** Dify AI Platform
+- **Mensageria:** WhatsApp via WAHA API
+- **Agendamento:** Cron jobs com `@nestjs/schedule`
+- **Documentacao:** Swagger/OpenAPI
+
+### Documentacao
+- `GET /api` - Interface Swagger para documentacao da API
+
+## Configuracao
+
+### Variaveis de Ambiente
+
+Crie um arquivo `.env` com as seguintes variaveis:
+
+```env
+# Database
+DATABASE_URL="postgresql://usuario:senha@localhost:5432/virtual_pet_doctor"
+
+# WAHA API (WhatsApp)
+WAHA_API_URL="https://seu-waha-api.com"
+WAHA_API_KEY="sua-chave-waha"
+API_URL="https://seu-api-url.com"
+
+# Dify AI
+DIFY_API_KEY="sua-chave-dify"
 ```
 
-## Compile and run the project
+### Instalacao
 
+1. Clone o repositorio:
 ```bash
-# development
-$ pnpm run start
-
-# watch mode
-$ pnpm run start:dev
-
-# production mode
-$ pnpm run start:prod
+git clone https://github.com/seu-usuario/virtual-pet-doctor.git
+cd virtual-pet-doctor
 ```
 
-## Run tests
-
+2. Instale as dependencias:
 ```bash
-# unit tests
-$ pnpm run test
-
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
+pnpm install
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
+3. Configure o Prisma:
 ```bash
-$ pnpm install -g @nestjs/mau
-$ mau deploy
+npx prisma generate
+npx prisma migrate dev
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+4. Inicie o projeto em modo de desenvolvimento:
+```bash
+pnpm run start:dev
+```
 
-## Resources
+## Scripts Disponiveis
 
-Check out a few resources that may come in handy when working with NestJS:
+| Comando | Descricao |
+|---------|-----------|
+| `pnpm run start:dev` | Inicia em modo desenvolvimento |
+| `pnpm run start:prod` | Inicia em modo producao |
+| `pnpm run build` | Compila o projeto |
+| `pnpm run lint` | Executa o linter |
+| `pnpm run test` | Executa os testes unitarios |
+| `pnpm run test:e2e` | Executa os testes e2e |
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+## Caso de Uso
 
-## Support
+Este aplicativo foi projetado especificamente para **pessoas com doencas cronicas** que necessitam de:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+- Gerenciamento de medicamentos e lembretes
+- Informacoes sobre saude e suporte via WhatsApp
+- Acesso facil a assistencia de saude atraves de uma plataforma de mensagens familiar
+- Conversas personalizadas com assistencia de IA
 
-## Stay in touch
+O sistema e voltado para individuos de lingua portuguesa que gerenciam condicoes cronicas como diabetes, hipertensao ou outros problemas de saude de longo prazo que exigem medicacao regular e monitoramento.
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## Integracao com Dify
 
-## License
+O Dify AI e configurado para:
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+- **RAG (Retrieval-Augmented Generation):** Conhecimento especializado sobre doencas cronicas
+- **Ferramentas disponiveis:**
+  - Obtencao de dados em tempo real
+  - Configuracao de lembretes para o usuario
+- **Manutencao de contexto:** Sessoes com timeout de 5 minutos
+- **Respostas em portugues:** Configurado para usuarios lusofonos
+
+## Licenca
+
+UNLICENSED
