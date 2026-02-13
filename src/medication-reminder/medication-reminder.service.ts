@@ -83,13 +83,13 @@ export class MedicationReminderService implements OnModuleInit {
   async createReminder(
     createMedicationReminderDto: CreateMedicationReminderDto,
   ) {
-    const startTime = Date.now();
-    const isActive =
-      createMedicationReminderDto.active !== undefined
-        ? createMedicationReminderDto.active
-        : true;
-
     try {
+      const startTime = Date.now();
+      const isActive =
+        createMedicationReminderDto.active !== undefined
+          ? createMedicationReminderDto.active
+          : true;
+
       this.logger.log(
         `Creating new medication reminder - Title: "${createMedicationReminderDto.title}", User: ${createMedicationReminderDto.userId}, Active: ${isActive}, Recurrence: ${createMedicationReminderDto.recurrence}`,
       );
@@ -125,11 +125,7 @@ export class MedicationReminderService implements OnModuleInit {
 
       return reminder;
     } catch (error) {
-      const duration = Date.now() - startTime;
-      this.logger.error(
-        `Failed to create reminder after ${duration}ms:`,
-        error,
-      );
+      this.logger.error(`Failed to create reminder:`, error);
       throw new InternalServerErrorException('Failed to create reminder');
     }
   }
