@@ -40,3 +40,23 @@ export interface DifyResponse {
   metadata: DifyResponseMetadata;
   created_at: number;
 }
+
+export interface DifyRetrieveSegment {
+  segment: {
+    content: string;
+    document: {
+      name: string;
+      id: string;
+    };
+    answer?: string;
+  };
+  score: number;
+  position: number;
+}
+
+export interface DifyRetrieveResponse {
+  query: {
+    content: string;
+  };
+  records: DifyRetrieveSegment[];
+}
