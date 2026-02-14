@@ -1,40 +1,20 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { DifyResponse } from '../../types/dify';
+import { ZaiGlm45AirFreeModel } from './models/z.ai-glm-4.5-air-free';
 
 @Injectable()
 export class AiService {
-  private readonly difyApiKey: string;
+  private readonly openaiApiKey: string;
+  private readonly zaiGlm45AirFreeModel: ZaiGlm45AirFreeModel;
   constructor(private configService: ConfigService) {
-    this.difyApiKey = this.configService.get<string>('DIFY_API_KEY')!;
+    this.openaiApiKey = this.configService.get<string>('OPENAI_API_KEY')!;
+    this.zaiGlm45AirFreeModel = new ZaiGlm45AirFreeModel(this.configService);
   }
-  async callAgent(
-    message: string,
-    userId: string,
-    conversationId?: string,
-    inputs?: Record<string, unknown>,
-  ) {
+  async callAgent(message: string, userId: string) {
     try {
-      console.log('inputs', inputs);
-      const response = await fetch('https://api.dify.ai/v1/chat-messages', {
-        headers: {
-          Authorization: `Bearer ${this.difyApiKey}`,
-          'Content-Type': 'application/json',
-        },
-        method: 'POST',
-        body: JSON.stringify({
-          inputs: inputs || {},
-          response_mode: 'blocking',
-          query: message,
-          user: userId,
-          ...(conversationId && { conversation_id: conversationId }),
-        }),
-      });
-      if (!response.ok) {
-        console.error(await response.text());
-        throw new InternalServerErrorException('Failed to call agent');
-      }
-      return (await response.json()) as DifyResponse;
+      const model = this.zaiGlm45AirFreeModel.getModel();
+      const response = await model.invoke([{ role: 'user', content: message }]);
+      return response;
     } catch (error) {
       console.error(error);
       throw new InternalServerErrorException('Failed to call agent');
