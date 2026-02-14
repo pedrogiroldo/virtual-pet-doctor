@@ -25,15 +25,27 @@ model User {
 }
 
 model AgentChatSession {
-  id                   String   @id @default(uuid())
-  user                 User     @relation(fields: [userId], references: [id])
+  id                   String             @id @default(uuid())
+  user                 User               @relation(fields: [userId], references: [id])
   userId               String
-  sessionId            String   @unique
-  lastMessageTimestamp DateTime @default(now())
-  createdAt            DateTime @default(now())
-  updatedAt            DateTime @updatedAt
+  lastMessageTimestamp DateTime           @default(now())
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+  agentChatMessages    AgentChatMessage[]
 
-  @@index([userId, sessionId])
+  @@index([userId])
+}
+
+model AgentChatMessage {
+  id                 String                    @id @default(uuid())
+  agentChatSession   AgentChatSession          @relation(fields: [agentChatSessionId], references: [id])
+  agentChatSessionId String
+  message            String
+  role               AgentChatMessageDirection
+  createdAt          DateTime                  @default(now())
+  updatedAt          DateTime                  @updatedAt
+
+  @@index([agentChatSessionId])
 }
 
 model MedicationReminder {
@@ -48,4 +60,10 @@ model MedicationReminder {
   updatedAt  DateTime @updatedAt
 
   @@index([userId])
+}
+
+// ENUMS
+enum AgentChatMessageDirection {
+  USER
+  AGENT
 }
