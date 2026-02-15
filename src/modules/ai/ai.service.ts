@@ -1,34 +1,48 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { createAgent } from 'langchain';
+import { createAgent, toolStrategy } from 'langchain';
 import { ZaiGlm45AirFreeModel } from './models/z.ai-glm-4.5-air-free';
-import { PrismaService } from '../prisma/prisma.service';
+import { AnthropicClaudeHaiku3Model } from './models/antrophic-claude-haiku-3';
 import { DifyKnowledgeBaseTool } from './tools/dify-knowledge-base.tool';
+import { AgentChatSessionService } from '../agent-chat-session/agent-chat-session.service';
+import { z } from 'zod';
 
 @Injectable()
 export class AiService {
   private readonly openaiApiKey: string;
   private readonly zaiGlm45AirFreeModel: ZaiGlm45AirFreeModel;
+  private readonly anthropicClaudeHaiku3Model: AnthropicClaudeHaiku3Model;
   private readonly difyKnowledgeBaseTool: DifyKnowledgeBaseTool;
 
   constructor(
     private readonly configService: ConfigService,
-    private readonly prismaService: PrismaService,
+    private readonly agentChatSessionService: AgentChatSessionService,
   ) {
     this.openaiApiKey = this.configService.get<string>('OPENAI_API_KEY')!;
     this.zaiGlm45AirFreeModel = new ZaiGlm45AirFreeModel(this.configService);
+    this.anthropicClaudeHaiku3Model = new AnthropicClaudeHaiku3Model(
+      this.configService,
+    );
     this.difyKnowledgeBaseTool = new DifyKnowledgeBaseTool(this.configService);
   }
 
   async callAgent(message: string, userId: string) {
     try {
-      const session = await this.findOrCreateSession(userId);
+      const responseFormat = z.object({
+        message: z.string().describe('The message to send to the user'),
+      });
+      const session =
+        await this.agentChatSessionService.findOrCreateSession(userId);
 
       if (!session) {
         throw new InternalServerErrorException(
           'Failed to find or create session',
         );
       }
+
+      // Fetch message history from database
+      const messageHistory =
+        await this.agentChatSessionService.getMessageHistory(session.id);
 
       const diabatesHelperPrompt = `
 Use the following context as your learned knowledge, inside <context></context> XML tags.
@@ -161,46 +175,73 @@ No seu código, os horários são baseados no fuso horário \`'America/Sao_Paulo
 
 `;
 
-      const model = this.zaiGlm45AirFreeModel.getModel();
+      const model = this.anthropicClaudeHaiku3Model.getModel();
       const agent = createAgent({
         model: model,
         tools: [this.difyKnowledgeBaseTool.getTool()],
+        responseFormat: toolStrategy(responseFormat),
         systemPrompt: diabatesHelperPrompt,
       });
-      const response = await agent.invoke({
-        messages: [{ role: 'user', content: message }],
-      });
-      return response;
+
+      // Build messages array with history + current message
+      const messages = [...messageHistory, { role: 'user', content: message }];
+
+      const response = await agent.invoke({ messages });
+
+      // Save messages to database
+      await this.agentChatSessionService.saveUserMessage(session.id, message);
+      // Extract text content from langchain response
+      console.log('[AI] Response:', response);
+      const responseText = response.structuredResponse.message;
+      await this.agentChatSessionService.saveAgentMessage(
+        session.id,
+        responseText,
+      );
+      await this.agentChatSessionService.updateChatSessionTimestamp(session.id);
+
+      return responseText;
     } catch (error) {
       console.error(error);
       throw new InternalServerErrorException('Failed to call agent');
     }
   }
 
-  private async findOrCreateSession(userId: string) {
+  public extractResponseText(response: unknown): string {
     try {
-      const session = await this.prismaService.agentChatSession.findFirst({
-        where: {
-          userId: userId,
-          lastMessageTimestamp: {
-            gt: new Date(Date.now() - 1000 * 60 * 5),
-          },
-        },
-      });
-
-      if (session) {
-        return session;
+      if (typeof response === 'string') {
+        return response;
       }
-
-      const newSession = await this.prismaService.agentChatSession.create({
-        data: { userId: userId },
-      });
-      return newSession;
-    } catch (error) {
-      console.error(error);
-      throw new InternalServerErrorException(
-        'Failed to find or create session',
-      );
+      const responseObj = response as Record<string, unknown>;
+      if ('text' in responseObj && typeof responseObj.text === 'string') {
+        return responseObj.text;
+      }
+      if ('content' in responseObj && typeof responseObj.content === 'string') {
+        return responseObj.content;
+      }
+      if (
+        'messages' in responseObj &&
+        Array.isArray(responseObj.messages) &&
+        responseObj.messages.length > 0
+      ) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        const lastMessage =
+          responseObj.messages[responseObj.messages.length - 1];
+        const messageObj = lastMessage as Record<string, unknown>;
+        if ('content' in messageObj) {
+          const content = messageObj.content;
+          if (typeof content === 'string') {
+            return content;
+          }
+          if (Array.isArray(content)) {
+            return content
+              .map((item) => (typeof item === 'string' ? item : ''))
+              .join('');
+          }
+        }
+      }
+      return JSON.stringify(response);
+    } catch {
+      return JSON.stringify(response);
     }
   }
 }

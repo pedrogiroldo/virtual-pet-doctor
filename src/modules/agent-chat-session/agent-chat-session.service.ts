@@ -24,12 +24,11 @@ export class AgentChatSessionService {
       );
     }
   }
-  async createUserChatSession(userId: string, sessionId: string) {
+  async createUserChatSession(userId: string) {
     try {
       const chatSession = await this.prismaService.agentChatSession.create({
         data: {
           userId,
-          sessionId,
         },
       });
       return chatSession;
@@ -42,7 +41,7 @@ export class AgentChatSessionService {
   async updateChatSessionTimestamp(sessionId: string) {
     try {
       const chatSession = await this.prismaService.agentChatSession.update({
-        where: { sessionId },
+        where: { id: sessionId },
         data: { lastMessageTimestamp: new Date() },
       });
       return chatSession;
@@ -54,21 +53,53 @@ export class AgentChatSessionService {
     }
   }
 
-  async createUserChatSessionWithTimestamp(userId: string, sessionId: string) {
+  async findOrCreateSession(userId: string) {
     try {
-      const chatSession = await this.prismaService.agentChatSession.create({
-        data: {
-          userId,
-          sessionId,
-          lastMessageTimestamp: new Date(),
-        },
-      });
-      return chatSession;
+      const session = await this.getUserActiveChatSession(userId);
+
+      if (session) {
+        return session;
+      }
+
+      const newSession = await this.createUserChatSession(userId);
+      return newSession;
     } catch (error) {
       console.error(error);
       throw new InternalServerErrorException(
-        'Failed to create chat session with timestamp',
+        'Failed to find or create session',
       );
     }
+  }
+
+  async getMessageHistory(sessionId: string) {
+    const messages = await this.prismaService.agentChatMessage.findMany({
+      where: { agentChatSessionId: sessionId },
+      orderBy: { createdAt: 'asc' },
+    });
+
+    return messages.map((msg) => ({
+      role: msg.role === 'USER' ? 'user' : 'assistant',
+      content: msg.message,
+    }));
+  }
+
+  async saveUserMessage(sessionId: string, message: string) {
+    await this.prismaService.agentChatMessage.create({
+      data: {
+        agentChatSessionId: sessionId,
+        message,
+        role: 'USER',
+      },
+    });
+  }
+
+  async saveAgentMessage(sessionId: string, message: string) {
+    await this.prismaService.agentChatMessage.create({
+      data: {
+        agentChatSessionId: sessionId,
+        message,
+        role: 'AGENT',
+      },
+    });
   }
 }
