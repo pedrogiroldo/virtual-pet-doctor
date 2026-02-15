@@ -204,15 +204,13 @@ No seu código, os horários são baseados no fuso horário \`'America/Sao_Paulo
         systemPrompt: diabatesHelperPrompt,
       });
 
-      // Build messages array with history + current message
       const messages = [...messageHistory, { role: 'user', content: message }];
 
       const response = await agent.invoke({ messages });
 
-      // Save messages to database
       await this.agentChatSessionService.saveUserMessage(session.id, message);
-      // Extract text content from langchain response
       console.log('[AI] Response:', response);
+
       const responseText = response.structuredResponse.message;
       await this.agentChatSessionService.saveAgentMessage(
         session.id,
