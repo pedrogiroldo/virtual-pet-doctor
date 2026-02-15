@@ -1,10 +1,18 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  Inject,
+  forwardRef,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { createAgent, toolStrategy } from 'langchain';
 import { ZaiGlm45AirFreeModel } from './models/z.ai-glm-4.5-air-free';
 import { AnthropicClaudeHaiku3Model } from './models/antrophic-claude-haiku-3';
 import { DifyKnowledgeBaseTool } from './tools/dify-knowledge-base.tool';
+import { QueueStatusTool } from './tools/queue-status.tool';
+import { CreateMedicationReminderTool } from './tools/create-medication-reminder.tool';
 import { AgentChatSessionService } from '../agent-chat-session/agent-chat-session.service';
+import { MedicationReminderService } from '../../medication-reminder/medication-reminder.service';
 import { z } from 'zod';
 
 @Injectable()
@@ -13,10 +21,13 @@ export class AiService {
   private readonly zaiGlm45AirFreeModel: ZaiGlm45AirFreeModel;
   private readonly anthropicClaudeHaiku3Model: AnthropicClaudeHaiku3Model;
   private readonly difyKnowledgeBaseTool: DifyKnowledgeBaseTool;
+  private readonly queueStatusTool: QueueStatusTool;
 
   constructor(
     private readonly configService: ConfigService,
     private readonly agentChatSessionService: AgentChatSessionService,
+    @Inject(forwardRef(() => MedicationReminderService))
+    private readonly medicationReminderService: MedicationReminderService,
   ) {
     this.openaiApiKey = this.configService.get<string>('OPENAI_API_KEY')!;
     this.zaiGlm45AirFreeModel = new ZaiGlm45AirFreeModel(this.configService);
@@ -24,6 +35,7 @@ export class AiService {
       this.configService,
     );
     this.difyKnowledgeBaseTool = new DifyKnowledgeBaseTool(this.configService);
+    this.queueStatusTool = new QueueStatusTool();
   }
 
   async callAgent(message: string, userId: string) {
@@ -176,9 +188,18 @@ No seu código, os horários são baseados no fuso horário \`'America/Sao_Paulo
 `;
 
       const model = this.anthropicClaudeHaiku3Model.getModel();
+      const createMedicationReminderTool = new CreateMedicationReminderTool(
+        session.userId,
+        this.medicationReminderService,
+      );
+
       const agent = createAgent({
         model: model,
-        tools: [this.difyKnowledgeBaseTool.getTool()],
+        tools: [
+          this.difyKnowledgeBaseTool.getTool(),
+          this.queueStatusTool.getTool(),
+          createMedicationReminderTool.getTool(),
+        ],
         responseFormat: toolStrategy(responseFormat),
         systemPrompt: diabatesHelperPrompt,
       });

@@ -3,6 +3,8 @@ import {
   OnModuleInit,
   Logger,
   InternalServerErrorException,
+  Inject,
+  forwardRef,
 } from '@nestjs/common';
 import { SchedulerRegistry } from '@nestjs/schedule';
 import { PrismaService } from '../modules/prisma/prisma.service';
@@ -20,6 +22,7 @@ export class MedicationReminderService implements OnModuleInit {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly schedulerRegistry: SchedulerRegistry,
+    @Inject(forwardRef(() => WhatsappService))
     private readonly whatsappService: WhatsappService,
   ) {}
 
@@ -198,7 +201,7 @@ export class MedicationReminderService implements OnModuleInit {
       const jobName = this.scheduledJobs.get(id);
       if (jobName && this.schedulerRegistry.doesExist('cron', jobName)) {
         const job = this.schedulerRegistry.getCronJob(jobName);
-        job.stop();
+        void job.stop();
         this.schedulerRegistry.deleteCronJob(jobName);
         this.scheduledJobs.delete(id);
         this.logger.log(`Stopped and deleted job: ${jobName}`);

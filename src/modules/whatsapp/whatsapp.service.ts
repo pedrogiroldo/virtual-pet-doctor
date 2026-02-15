@@ -1,4 +1,9 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  Inject,
+  forwardRef,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import type { WahaWebhookBody } from 'src/types/waha';
 import { UserService } from '../user/user.service';
@@ -13,6 +18,7 @@ export class WhatsappService {
   constructor(
     private configService: ConfigService,
     private userService: UserService,
+    @Inject(forwardRef(() => AiService))
     private aiService: AiService,
   ) {
     this.wahaApiUrl = this.configService.get<string>('WAHA_API_URL')!;
