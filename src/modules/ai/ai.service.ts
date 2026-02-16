@@ -7,7 +7,7 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { createAgent, toolStrategy } from 'langchain';
 import { ZaiGlm45AirFreeModel } from './models/z.ai-glm-4.5-air-free';
-import { AnthropicClaudeHaiku3Model } from './models/antrophic-claude-haiku-3';
+import { AnthropicClaudeSonnet4Model } from './models/antrophic-claude-sonnet-4';
 import { DifyKnowledgeBaseTool } from './tools/dify-knowledge-base.tool';
 import { QueueStatusTool } from './tools/queue-status.tool';
 import { CreateMedicationReminderTool } from './tools/create-medication-reminder.tool';
@@ -19,7 +19,7 @@ import { z } from 'zod';
 export class AiService {
   private readonly openaiApiKey: string;
   private readonly zaiGlm45AirFreeModel: ZaiGlm45AirFreeModel;
-  private readonly anthropicClaudeHaiku3Model: AnthropicClaudeHaiku3Model;
+  private readonly anthropicClaudeSonnet4Model: AnthropicClaudeSonnet4Model;
   private readonly difyKnowledgeBaseTool: DifyKnowledgeBaseTool;
   private readonly queueStatusTool: QueueStatusTool;
 
@@ -31,7 +31,7 @@ export class AiService {
   ) {
     this.openaiApiKey = this.configService.get<string>('OPENAI_API_KEY')!;
     this.zaiGlm45AirFreeModel = new ZaiGlm45AirFreeModel(this.configService);
-    this.anthropicClaudeHaiku3Model = new AnthropicClaudeHaiku3Model(
+    this.anthropicClaudeSonnet4Model = new AnthropicClaudeSonnet4Model(
       this.configService,
     );
     this.difyKnowledgeBaseTool = new DifyKnowledgeBaseTool(this.configService);
@@ -188,7 +188,7 @@ No seu código, os horários são baseados no fuso horário \`'America/Sao_Paulo
 
 `;
 
-      const model = this.anthropicClaudeHaiku3Model.getModel();
+      const model = this.anthropicClaudeSonnet4Model.getModel();
       const createMedicationReminderTool = new CreateMedicationReminderTool(
         session.userId,
         this.medicationReminderService,

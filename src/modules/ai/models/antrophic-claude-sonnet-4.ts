@@ -3,13 +3,13 @@ import { ChatAnthropic } from '@langchain/anthropic';
 import { ConfigService } from '@nestjs/config';
 
 /**
- * Anthropic Claude 3 Haiku model implementation.
+ * Anthropic Claude Sonnet 4 model implementation.
  *
  * This model is provided by Anthropic and can be used through
  * the ChatAnthropic interface for direct API access.
  *
  */
-export class AnthropicClaudeHaiku3Model extends ModelFactory {
+export class AnthropicClaudeSonnet4Model extends ModelFactory {
   constructor(configService: ConfigService) {
     super(configService);
   }
@@ -25,7 +25,7 @@ export class AnthropicClaudeHaiku3Model extends ModelFactory {
   }
 
   getModelName(): string {
-    return 'claude-3-haiku-20240307';
+    return 'claude-sonnet-4-20250514';
   }
 
   getProvider(): string {
