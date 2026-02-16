@@ -19,7 +19,7 @@ export class AnthropicClaudeHaiku3Model extends ModelFactory {
 
     return new ChatAnthropic({
       apiKey: super.getApiKey('ANTHROPIC'),
-      model: 'claude-3-haiku-20240307',
+      model: 'claude-sonnet-4-20250514',
       temperature: config.temperature,
     });
   }
